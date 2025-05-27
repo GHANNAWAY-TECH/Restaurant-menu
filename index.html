@@ -1,221 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Menu</title>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <style>
-        /* Existing CSS */
-        body {
-            font-family: sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #ffffff;
-            color: #333;
-            background-image: url('menubg.jpeg'); /* Replace with your actual image path */
-            background-size: cover; /* Scales the image to cover the entire background */
-            background-repeat: no-repeat; /* Prevents the image from repeating */
-            background-attachment: fixed; /* Optional: Keeps the background fixed during scrolling */
-        }
-        h1 {
-            text-align: center;
-            padding: 20px 0;
-            background-color: #0a0a0ad1;
-            margin-bottom: 20px;
-            color: #007bff;
-        }
-        .filter-container {
-            text-align: center;
-            padding: 10px 20px;
-            margin-bottom: 20px;
-        }
-        #category-filter {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .search-container {
-            text-align: center;
-            padding: 10px 20px;
-            margin-bottom: 20px;
-        }
-        #search-input {
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 80%;
-            max-width: 400px;
-        }
-        .menu-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            padding: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .menu-item {
-            background-color: #ffee00a6;
-            border-radius: 8px;
-            box-shadow: 0px 0px 7px 7px #0c0b0b;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
-            border: 1px solid #f8f9fa;
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-        .menu-item img {
-            max-width: 100%;
-            height: auto;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            object-fit: cover;
-            max-height: 200px;
-        }
-        .menu-item h2 {
-            margin-top: 0;
-            color: #555;
-        }
-        .menu-item p {
-            margin-bottom: 10px;
-            color: #777;
-        }
-        .menu-item .price {
-            font-weight: bold;
-            color: #007bff;
-            margin-top: auto; /* Push price to the bottom */
-        }
-        .hidden {
-            display: none !important;
-        }
-        /* Hover effect for menu items */
-        .menu-item:hover {
-            transform: scale(1.05); /* Slight zoom effect */
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Adding glow effect */
-        }
-        /* Responsive adjustments */
-        @media (max-width: 600px) {
-            .menu-container {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Restaurant Menu</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #ffffff url('menubg.jpeg') no-repeat fixed center center/cover;
+      color: #333;
+    }
+
+    body.loading {
+      overflow: hidden;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 20px 0;
+      background-color: #0a0a0ad1;
+      margin-bottom: 20px;
+      color: #007bff;
+    }
+
+    .filter-container, .search-container {
+      text-align: center;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+    }
+
+    #category-filter, #search-input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    #search-input {
+      width: 80%;
+      max-width: 400px;
+    }
+
+    .menu-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .menu-item {
+      background-color: #ffee00a6;
+      border-radius: 8px;
+      box-shadow: 0 0 7px 7px #0c0b0b;
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
+      border: 1px solid #f8f9fa;
+    }
+
+    .menu-item img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    .menu-item h2 {
+      margin-top: 0;
+      color: #555;
+    }
+
+    .menu-item p {
+      margin-bottom: 10px;
+      color: #777;
+    }
+
+    .menu-item .price {
+      font-weight: bold;
+      color: #007bff;
+      margin-top: auto;
+    }
+
+    .menu-item:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 600px) {
+      .menu-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* 🌫️ Blur class */
+    .blur {
+      filter: blur(5px);
+      transition: filter 0.5s ease;
+    }
+
+    /* 🔄 Full-screen loading overlay */
+    #loading {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.9);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 1;
+      transition: opacity 0.8s ease;
+    }
+
+    #loading.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #007bff;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin-top: 10px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
 </head>
-<body>
-    <h1>Ghannaway Tech Systems Menu Demo</h1>
-    <div class="filter-container">
-        <select id="category-filter">
-            <option value="">All Categories</option>
-        </select>
-    </div>
-    <div class="search-container">
-        <input type="text" id="search-input" placeholder="Search menu items...">
-    </div>
-    <div class="menu-container" id="menu">
-        <!-- Menu items will be displayed here -->
-    </div>
+<body class="loading">
+  <h1 class="blur">Ghannaway Tech Systems Menu Demo</h1>
 
-    <script>
-        const menuContainer = document.getElementById('menu');
-        const searchInput = document.getElementById('search-input');
-        const categoryFilter = document.getElementById('category-filter');
-        const apiUrl = 'https://script.google.com/macros/s/AKfycbxInEalMtQR7tWrFyCKy4L8zlKknWls6gP6ASfLb6Dl1FtQ5DLZUTn3ziYbnNynY1-U2g/exec'; // Replace with your Google Apps Script Web App URL
-        let menuData = []; // Store the fetched menu data
+  <div class="filter-container blur">
+    <select id="category-filter" aria-label="Filter by category">
+      <option value="">All Categories</option>
+    </select>
+  </div>
 
-        fetch(apiUrl)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then(data => {
-                menuData = data; // Store the data
-                populateCategories(data); // Populate the dropdown
-                displayMenu(data); // Initial display
-            })
-            .catch(error => {
-                console.error('Error fetching or displaying menu:', error);
-                menuContainer.innerHTML = '<p>Failed to load menu. Please try again later.</p>';
-            });
+  <div class="search-container blur">
+    <input type="text" id="search-input" placeholder="Search menu items..." aria-label="Search menu items" />
+  </div>
 
-        function populateCategories(menuItems) {
-            const categories = [...new Set(menuItems.map(item => item.category))]; // Get unique categories
-            categories.forEach(category => {
-                const option = document.createElement('option');
-                option.value = category;
-                option.textContent = category;
-                categoryFilter.appendChild(option);
-            });
-        }
+  <div class="menu-container blur" id="menu" style="display:none;"></div>
 
-        function displayMenu(menuItems) {
-            menuContainer.innerHTML = ''; // Clear previous items
-            if (menuItems.length === 0) {
-                menuContainer.innerHTML = '<p>No items found. Please adjust your search or filter.</p>';
-            } else {
-                menuItems.forEach(item => {
-                    const menuItem = document.createElement('div');
-                    menuItem.classList.add('menu-item');
+  <div id="loading">
+    <p>Loading menu, please wait...</p>
+    <div class="spinner"></div>
+  </div>
 
-                    const image = document.createElement('img');
-                    image.src = item.image_url || 'default-image.jpg'; // Provide a default image if none is found
-                    image.alt = item.name;
-                    image.onerror = () => image.src = 'default-image.jpg'; // In case image fails to load
+  <script>
+    const menuContainer = document.getElementById('menu');
+    const searchInput = document.getElementById('search-input');
+    const categoryFilter = document.getElementById('category-filter');
+    const loadingDiv = document.getElementById('loading');
+    const apiUrl = 'https://script.google.com/macros/s/AKfycbxInEalMtQR7tWrFyCKy4L8zlKknWls6gP6ASfLb6Dl1FtQ5DLZUTn3ziYbnNynY1-U2g/exec';
+    let menuData = [];
 
-                    const name = document.createElement('h2');
-                    name.textContent = item.name;
+    fetch(apiUrl)
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        menuData = data;
+        populateCategories(data);
+        displayMenu(data);
 
-                    const description = document.createElement('p');
-                    description.textContent = item.description;
+        loadingDiv.classList.add('fade-out');
+        document.body.classList.remove('loading');
 
-                    const price = document.createElement('p');
-                    price.classList.add('price');
-                    price.textContent = `Ksh${item.price}`; // Accessing price without the underscore
+        // Remove blur after transition
+        setTimeout(() => {
+          loadingDiv.style.display = 'none';
+          menuContainer.style.display = 'grid';
+          document.querySelectorAll('.blur').forEach(el => el.classList.remove('blur'));
+        }, 800);
+      })
+      .catch(error => {
+        console.error('Error fetching or displaying menu:', error);
+        loadingDiv.innerHTML = '<p>Failed to load menu. Please try again later.</p>';
+      });
 
-                    menuItem.appendChild(image);
-                    menuItem.appendChild(name);
-                    menuItem.appendChild(description);
-                    menuItem.appendChild(price);
+    function populateCategories(menuItems) {
+      const categories = [...new Set(menuItems.map(item => item.category))].sort();
+      categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        categoryFilter.appendChild(option);
+      });
+    }
 
-                    menuContainer.appendChild(menuItem);
-                });
-            }
-        }
+    function displayMenu(menuItems) {
+      menuContainer.innerHTML = '';
+      if (menuItems.length === 0) {
+        menuContainer.innerHTML = '<p>No items found. Please adjust your search or filter.</p>';
+        return;
+      }
 
-        searchInput.addEventListener('input', function() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const selectedCategory = categoryFilter.value;
-            const filteredMenu = menuData.filter(item => {
-                const searchMatch =
-                    item.name.toLowerCase().includes(searchTerm) ||
-                    item.description.toLowerCase().includes(searchTerm);
-                const categoryMatch =
-                    selectedCategory === "" || item.category === selectedCategory;
-                return searchMatch && categoryMatch;
-            });
-            displayMenu(filteredMenu);
-        });
+      menuItems.forEach(item => {
+        const menuItem = document.createElement('div');
+        menuItem.classList.add('menu-item');
 
-        categoryFilter.addEventListener('change', function() {
-            const selectedCategory = categoryFilter.value;
-            const searchTerm = searchInput.value.toLowerCase();
-            const filteredMenu = menuData.filter(item => {
-                const categoryMatch =
-                    selectedCategory === "" || item.category === selectedCategory;
-                const searchMatch =
-                    item.name.toLowerCase().includes(searchTerm) ||
-                    item.description.toLowerCase().includes(searchTerm);
-                return categoryMatch && searchMatch;
-            });
-            displayMenu(filteredMenu);
-        });
-    </script>
+        const image = document.createElement('img');
+        image.src = item.image_url || 'default-image.jpg';
+        image.alt = item.name || 'Menu item image';
+        image.onerror = () => image.src = 'default-image.jpg?v=1';
+
+        const name = document.createElement('h2');
+        name.textContent = item.name;
+
+        const description = document.createElement('p');
+        description.textContent = item.description;
+
+        const price = document.createElement('p');
+        price.classList.add('price');
+        price.textContent = `Ksh ${parseFloat(item.price).toLocaleString()}`;
+
+        menuItem.appendChild(image);
+        menuItem.appendChild(name);
+        menuItem.appendChild(description);
+        menuItem.appendChild(price);
+
+        menuContainer.appendChild(menuItem);
+      });
+    }
+
+    function filterMenu() {
+      const searchTerm = searchInput.value.toLowerCase();
+      const selectedCategory = categoryFilter.value;
+
+      const filtered = menuData.filter(item => {
+        const matchCategory = !selectedCategory || item.category === selectedCategory;
+        const matchSearch = item.name.toLowerCase().includes(searchTerm) ||
+                            item.description.toLowerCase().includes(searchTerm);
+        return matchCategory && matchSearch;
+      });
+
+      displayMenu(filtered);
+    }
+
+    searchInput.addEventListener('input', filterMenu);
+    categoryFilter.addEventListener('change', filterMenu);
+  </script>
 </body>
 </html>
