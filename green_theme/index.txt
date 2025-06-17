@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>James Ndichu Systems</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <header class="hero">
+    <h1>James Ndichu Systems</h1>
+    <p>Innovative Tech Solutions for a Smarter Tomorrow</p>
+    <button id="theme-toggle">Toggle Dark Mode</button>
+  </header>
+
+  <section class="about">
+    <h2>About Us</h2>
+    <p>James Ndichu Systems is a leading tech company dedicated to delivering cutting-edge solutions in web development, automation, and enterprise systems.</p>
+  </section>
+
+  <section class="faq-section">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-container">
+      <details>
+        <summary><span>What services do you offer?</span><span class="icon">➕</span></summary>
+        <p>We specialize in web apps, automation systems, cloud integration, and business tools development.</p>
+      </details>
+
+      <details>
+        <summary><span>Do you provide support?</span><span class="icon">➕</span></summary>
+        <p>Yes, we offer both technical support and long-term maintenance plans.</p>
+      </details>
+
+      <details>
+        <summary><span>Can I request a custom system?</span><span class="icon">➕</span></summary>
+        <p>Absolutely. We build tailored systems to fit your specific needs and industry requirements.</p>
+      </details>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Contact us: info@ndichusystems.com</p>
+    <p>&copy; 2025 James Ndichu Systems</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
