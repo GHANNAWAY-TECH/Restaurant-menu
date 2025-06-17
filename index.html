@@ -4,7 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Restaurant Menu</title>
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
+  <link rel="manifest" href="favicon_io/site.webmanifest">
+  <link rel="icon" href="favicon_io/favicon.ico" type="image/x-icon">
   <style>
     body {
       font-family: sans-serif;
@@ -13,10 +17,25 @@
       background: #ffffff url('menubg.png') no-repeat fixed center center/cover;
       color: #333;
     }
-
-    body.loading {
-      overflow: hidden;
+    .loading-text {
+    	place-self: center;
+	    background: linear-gradient(90deg, #00f, rgb(255, 153, 0), #00f) -100%/ 200%;
+	    /* being excessively careful with compat, 
+	     * though this has been supported unprefixed and 
+	     * in the shorthand across major browsers for a while */
+	    -webkit-background-clip: text;
+	           background-clip: text;
+	    /* use color, don't use -webkit-text-fill-color anymore, 
+	     * was meant to solve a problem we haven't had in years */
+	    color: transparent;
+	    font: 900 clamp(2em, 10vw, 10em) exo, sans-serif;
+	    animation: shimmer 2s linear infinite
     }
+
+    @keyframes shimmer { to { background-position: 100% } }
+        body.loading {
+          overflow: hidden;
+        }
 
     h1 {
       text-align: center;
@@ -149,7 +168,10 @@
 
   <div class="filter-container blur">
     <select id="category-filter" aria-label="Filter by category">
-      <option value="">All Categories</option>
+      <option value="">All Foods Categories</option>
+    </select>
+    <select id="category-filter" aria-label="Filter by category">
+      <option value="">CLUB</option>
     </select>
   </div>
 
@@ -160,8 +182,9 @@
   <div class="menu-container blur" id="menu" style="display:none;"></div>
 
   <div id="loading">
-    <p>Loading menu, please wait...</p>
+    <p>please wait</p>
     <div class="spinner"></div>
+    <div class="loading-text">Loading Menu...</div>
   </div>
 
   <script>
